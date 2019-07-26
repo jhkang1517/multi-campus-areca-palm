@@ -32,7 +32,7 @@ from datetime import timedelta, date
 start_date = date(2005, 1, 1)
 end_date = date(2005, 1, 16)
 cnt_per_page = 10
-keyword='�ݸ�'
+keyword='±Ý¸®'
 url_format = "https://search.naver.com/search.naver?&where=news&query={1}&sm=tab_pge&sort=0&photo=0&field=0&reporter_article=&pd=3&ds={0}&de={0}&docid=&nso=so:r,p:from{0}to{0},a:all&mynews=1&cluster_rank=1&start={2}&refresh_start=0"
 
 class YonhapSpider(scrapy.Spider):
