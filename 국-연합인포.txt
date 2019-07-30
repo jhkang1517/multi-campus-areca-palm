@@ -1,0 +1,62 @@
+import scrapy
+from urllib import parse
+
+class YonhapSpider(scrapy.Spider):
+    name = 'yonhap'
+    allowed_domains = ['news.einfomax.co.kr']
+    start_urls=[]
+    for i in range(4000):
+        i=str(i)
+        urls = 'https://www.yna.co.kr/search/index?query=%EA%B8%88%EB%A6%AC'
+        start_urls.append(urls)
+
+        def parse(self, response):
+             
+            for qu in response.css('ul'):
+                link=qu.css('a::attr(href)').get()
+                next_page = link
+            #if next_page is not None:
+                yield response.follow(next_page, callback=self.pse)    
+            
+        def pse(self, response):   
+            yield {
+                    'title': response.css('h1.tit-article::text').get(),
+                    'content': response.css('div.article::text').getall(),
+                    'date':response.css('div.share-info span.tt::text').getall()
+                    }
+
+
+
+import scrapy
+from datetime import timedelta, date
+start_date = date(2005, 1, 1)
+end_date = date(2005, 1, 16)
+cnt_per_page = 10
+keyword='±Ý¸®'
+url_format = "https://search.naver.com/search.naver?&where=news&query={1}&sm=tab_pge&sort=0&photo=0&field=0&reporter_article=&pd=3&ds={0}&de={0}&docid=&nso=so:r,p:from{0}to{0},a:all&mynews=1&cluster_rank=1&start={2}&refresh_start=0"
+
+class YonhapSpider(scrapy.Spider):
+    name = 'yonhap2'
+    allowed_domains = ['naver.com','yna.co.kr']
+    start_urls = []
+    def daterange(start_date, end_date):
+        for n in range(int ((end_date - start_date).days)):
+            yield start_date + timedelta(n)
+       
+    for single_date in daterange(start_date, end_date):
+        start_urls.append(url_format.format(single_date.strftime("%Y%m%d"),keyword, 1))
+        
+    def parse(self, response):    
+        for qu in response.css('ul.type01'):
+            link=qu.css('a::attr(href)').get()        
+            next_page = link
+            print(next_page)
+    #         yield response.follow(next_page, callback=self.pse)
+                    
+    # def pse(self, response):   
+    #     yield {
+    #             'title': response.css('h1.tit-article::text').get(),
+    #             'content': response.css('div.article::text').get(),
+    #             'date':response.css('div.share-info span.tt::text').get()
+    #           }
+
