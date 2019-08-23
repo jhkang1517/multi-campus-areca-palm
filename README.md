@@ -1,4 +1,4 @@
-## areca_palm : 2019 빅콘테스트 아레카야자(Areca Palm)조 + 멀티캠퍼스 NLP A반 4조의 비공개 Repository
+## areca_palm : 멀티캠퍼스 NLP A반 4조의 비공개 Repository
 
 ### 주의사항
 
